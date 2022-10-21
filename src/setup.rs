@@ -1,5 +1,5 @@
-use num_bigint::{BigUint, RandBigInt, ToBigUint};
-use num_primes::{Generator};
+use num_bigint_dig::{BigUint, RandBigInt, ToBigUint};
+use num_primes::Generator;
 use rand;
 
 pub struct Parameters {
@@ -13,16 +13,16 @@ impl Parameters {
     pub fn new(security: usize, t: BigUint) -> Self {
         let one = 1.to_biguint().unwrap();
         let two = 2.to_biguint().unwrap();
-        let mut rng = rand::thread_rng();
 
         let p = gen_safe_prime(security);
         let q = gen_safe_prime(security);
         let n = &p * &q;
 
-        let low = 0.to_biguint().unwrap();
-        let g_tilda = rng.gen_biguint_range(&low, &n);
+        let mut rng = rand::thread_rng();
+        let g_tilda = rng.gen_biguint_range(&one, &(&n - &one));
         let g = g_tilda.modpow(&two, &n);
         let g = (&n - g).modpow(&one, &n);
+
         let phi_n = (&p - &one) * (&q - &one);
         let two_t = two.modpow(&t, &(&phi_n / &two));
         let h = g.modpow(&two_t, &n);
