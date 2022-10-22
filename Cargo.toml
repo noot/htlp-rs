@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 num-bigint-dig = { version = "0.8.1", features = ["rand"] }
+num-integer = "0.1.45"
 num-primes = "0.2.0"
 rand = "0.8.4"
